@@ -17,7 +17,7 @@ class PublicationApiClient {
     final result = _networkClient.get('', parser, <String, dynamic>{
       'q': query,
       'format': 'json',
-      'f': '${page * 30}',
+      'f': '${(page - 1) * 30}',
     });
     return result;
   }

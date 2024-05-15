@@ -27,7 +27,6 @@ class Paginator<T> {
     if (_isLoadingInProgres || _currentPage >= _totalPage) return;
     _isLoadingInProgres = true;
     final nextPage = _currentPage + 1;
-
     try {
       final result = await load(nextPage);
       _data.addAll(result.data);
@@ -43,6 +42,5 @@ class Paginator<T> {
     _currentPage = 0;
     _totalPage = 1;
     _data.clear();
-    await loadNextPage();
   }
 }

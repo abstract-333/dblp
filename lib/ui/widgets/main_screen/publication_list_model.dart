@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dblp/domain/api_client/publication_api_client.dart';
 import 'package:dblp/domain/entities/hit.dart';
-import 'package:dblp/domain/entities/publications.dart';
 import 'package:dblp/common/pagination.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +16,7 @@ class PublicationListViewModel extends ChangeNotifier {
     return searchQuery != null && searchQuery.isNotEmpty;
   }
 
-  List<Publications> get publications => List.unmodifiable(_publications);
+  List<Hit> get publications => List.unmodifiable(_publications);
 
   PublicationListViewModel() {
     _searchPublicationPaginator = Paginator<Hit>((page) async {
@@ -27,8 +26,8 @@ class PublicationListViewModel extends ChangeNotifier {
       );
       return PaginatorLoadResult(
         data: fetchedData.result!.hits!.hit!,
-        currentPage: fetchedData.result!.hits!.currentPage,
-        totalPage: fetchedData.result!.hits!.currentPage,
+        currentPage: page,
+        totalPage: fetchedData.result!.hits!.totalPage,
       );
     });
   }
@@ -36,14 +35,16 @@ class PublicationListViewModel extends ChangeNotifier {
   Future<void> _loadNextPage() async {
     if (isSearchMode) {
       await _searchPublicationPaginator.loadNextPage();
-      _publications = _searchPublicationPaginator.data;
+      _publications = _searchPublicationPaginator.data
+          .map((e) => Hit(id: e.id, info: e.info, url: e.url))
+          .toList();
     } else {
-      //TODO
+      _publications.clear();
     }
     notifyListeners();
   }
 
-  Future<void> serachPublication(String text) async {
+  Future<void> searchPublication(String text) async {
     searchDeboubce?.cancel();
     searchDeboubce = Timer(const Duration(milliseconds: 300), () async {
       final searchQuery = text.isNotEmpty ? text : null;
@@ -54,12 +55,12 @@ class PublicationListViewModel extends ChangeNotifier {
       if (isSearchMode) {
         await _searchPublicationPaginator.reset();
       }
-      _loadNextPage();
+      await _loadNextPage();
     });
   }
 
   void showedPublicationAtIndex(int index) {
-    if (index < _publications.length - 1) return;
+    if (index < _publications.length - 2) return;
     _loadNextPage();
   }
 }

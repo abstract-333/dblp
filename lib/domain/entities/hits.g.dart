@@ -9,8 +9,7 @@ part of 'hits.dart';
 Hits _$HitsFromJson(Map<String, dynamic> json) {
   return Hits(
     totalPage: int.parse(json['@total']) ~/ 30,
-    currentPage:
-        (int.parse(json['@computed']) - int.parse(json['@first'])) ~/ 30,
+    currentPage: int.parse(json['@first']) ~/ 30,
     hit: (json['hit'] as List<dynamic>?)?.map((e) => Hit.fromJson(e)).toList(),
   );
 }

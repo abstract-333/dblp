@@ -21,6 +21,7 @@ class NetworkClient {
     Map<String, dynamic>? parameters,
   ]) async {
     final url = _makeUri(path, parameters);
+    print(url);
     try {
       final request = await _client.getUrl(url);
       final response = await request.close();
