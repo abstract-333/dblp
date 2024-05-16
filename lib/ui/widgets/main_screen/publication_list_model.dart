@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class PublicationListViewModel extends ChangeNotifier {
   final _publicationService = PublicationApiClient();
   late final Paginator<Hit> _searchPublicationPaginator;
-  Timer? searchDeboubce;
+  Timer? searchDebounce;
   var _publications = <Hit>[];
   String? _searchQuery;
   bool get isSearchMode {
@@ -45,8 +45,8 @@ class PublicationListViewModel extends ChangeNotifier {
   }
 
   Future<void> searchPublication(String text) async {
-    searchDeboubce?.cancel();
-    searchDeboubce = Timer(const Duration(milliseconds: 300), () async {
+    searchDebounce?.cancel();
+    searchDebounce = Timer(const Duration(milliseconds: 300), () async {
       final searchQuery = text.isNotEmpty ? text : null;
       if (_searchQuery == searchQuery) return;
       _searchQuery = searchQuery;
