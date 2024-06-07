@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'hits.dart';
 part 'result.g.dart';
+// بشار حسن
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Result {

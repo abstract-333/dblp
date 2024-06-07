@@ -4,8 +4,9 @@ import 'package:dblp/domain/api_client/publication_api_client.dart';
 import 'package:dblp/domain/entities/hit.dart';
 import 'package:dblp/common/pagination.dart';
 import 'package:flutter/material.dart';
+// بشار حسن
 
-class PublicationListViewModel extends ChangeNotifier {
+class PublicationListModel extends ChangeNotifier {
   final _publicationService = PublicationApiClient();
   late final Paginator<Hit> _searchPublicationPaginator;
   Timer? searchDebounce;
@@ -18,7 +19,7 @@ class PublicationListViewModel extends ChangeNotifier {
 
   List<Hit> get publications => List.unmodifiable(_publications);
 
-  PublicationListViewModel() {
+  PublicationListModel() {
     _searchPublicationPaginator = Paginator<Hit>((page) async {
       final fetchedData = await _publicationService.searchPublication(
         page,

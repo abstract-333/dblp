@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'author.g.dart';
+// بشار حسن
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class Author {

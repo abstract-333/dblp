@@ -1,18 +1,26 @@
 import 'package:dblp/common/provider.dart';
 import 'package:flutter/material.dart';
-
+import 'dhuha_border.dart';
+import 'farah_titile.dart';
+import 'hala_boxshadow.dart';
+import 'joudi_year.dart';
+import 'karam_padding.dart';
+import 'rita_type.dart';
+import 'slieman_search.dart';
 import 'publication_list_model.dart';
+import 'roaa_appbar_title.dart';
 
+// مشترك
 class PublicationListWidget extends StatelessWidget {
   const PublicationListWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<PublicationListViewModel>(context);
+    final model = NotifierProvider.watch<PublicationListModel>(context);
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text("D B L P"),
+          title: RoaAppBarTitle(number: model?.publications.length),
           centerTitle: true,
         ),
         body: Stack(children: [
@@ -21,14 +29,7 @@ class PublicationListWidget extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: TextField(
               onChanged: model?.searchPublication,
-              decoration: InputDecoration(
-                labelText: 'Search',
-                filled: true,
-                fillColor: Colors.white.withAlpha(235),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                ),
-              ),
+              decoration: SliemanSearch().getInputDecoration(),
             ),
           ),
         ]));
@@ -42,13 +43,13 @@ class _MovieListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<PublicationListViewModel>(context);
+    final model = NotifierProvider.watch<PublicationListModel>(context);
     return ListView.builder(
       controller: ScrollController(),
       padding: const EdgeInsets.only(top: 70),
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       itemCount: model?.publications.length,
-      itemExtent: 163,
+      itemExtent: 200,
       itemBuilder: (BuildContext context, int index) {
         model?.showedPublicationAtIndex(index);
         return _MovieListRowWidget(index: index);
@@ -63,28 +64,17 @@ class _MovieListRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.read<PublicationListViewModel>(context);
+    final model = NotifierProvider.read<PublicationListModel>(context);
     final publication = model?.publications[index];
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 10,
-      ),
+      padding: KaramEdgeInsets().getEdgeInsets(),
       child: Stack(
         children: [
           DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(5)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
-                  blurRadius: 8,
-                  blurStyle: BlurStyle.outer,
-                )
-              ],
-              border: Border.all(
-                color: Colors.black.withOpacity(0.2),
-              ),
+              boxShadow: [HalaBoxShadow().getBoxShadow()],
+              border: DhuhaBorder().getBorder(),
             ),
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(5)),
@@ -97,13 +87,11 @@ class _MovieListRowWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 10),
-                          Text(
-                            publication?.info?.title ?? "Null",
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w700),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                          FarahTitle(title: publication?.info?.title ?? ''),
+                          RitaType(theType: publication?.info?.type ?? ''),
+                          const SizedBox(height: 3),
+                          JoudiYear(
+                              publicationYear: publication?.info?.year ?? ''),
                           const SizedBox(height: 3),
                         ],
                       ),

@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'author.dart';
 part 'authors.g.dart';
+// بشار حسن
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Authors {
