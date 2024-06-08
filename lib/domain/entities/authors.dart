@@ -14,4 +14,10 @@ class Authors {
       _$AuthorsFromJson(json);
 
   Map<String, dynamic> toJson() => _$AuthorsToJson(this);
+
+  List<String>? getAuthorsList() {
+    return authors
+        ?.map((Author element) => element.text ?? 'Unknown Author')
+        .toList();
+  }
 }

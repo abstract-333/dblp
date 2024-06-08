@@ -9,6 +9,7 @@ import 'rita_type.dart';
 import 'slieman_search.dart';
 import 'publication_list_model.dart';
 import 'roaa_appbar_title.dart';
+import 'ali_author.dart';
 
 // مشترك
 class PublicationListWidget extends StatelessWidget {
@@ -93,6 +94,10 @@ class _MovieListRowWidget extends StatelessWidget {
                           JoudiYear(
                               publicationYear: publication?.info?.year ?? ''),
                           const SizedBox(height: 3),
+                          AliAuthor(
+                              authors: publication?.info?.authors
+                                      ?.getAuthorsList() ??
+                                  ['Author']),
                         ],
                       ),
                     ),
